@@ -5,6 +5,9 @@ const mockUserData = [
   { name: "Daniel" },
   { name: "Gio" },
 ];
+//Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/users', (req, res) => {
   res.json({
@@ -22,6 +25,24 @@ app.get('/users/:id', (req, res) => {
     user: req.params.id
   });
 });
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const mockUsername = "GioRosales";
+  const mockPassword = "123456";
+
+  if (username === mockUsername && password === mockPassword)
+    return res.json({
+      success: true,
+      message: "password and username match!",
+      token: 'encrypted token goes here'
+    });
+
+  return res.json({
+    success: false,
+    message: "password and username do not match"
+  })
+})
 
 app.listen(3000, () => {
   console.log("server is running");
